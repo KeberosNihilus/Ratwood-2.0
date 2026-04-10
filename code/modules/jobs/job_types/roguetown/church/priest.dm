@@ -167,6 +167,17 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			t3.Remove(t3_choice)
 			t3_count--
 
+/datum/job/roguetown/priest/proc/_delayed_path_choice(mob/living/carbon/human/H)
+	if(!H || !H.client || !H.mind)
+		return
+
+	var/choice = alert(H, "Choose your path.", "Bishop Doctrine", "Loyalist", "Radical")
+
+	if(choice == "Radical")
+		src.grant_radical_path(H)
+	else
+		src.grant_old_path(H)
+
 /datum/job/roguetown/priest/proc/grant_old_path(mob/living/carbon/human/H)
 	if(!H || !H.mind || !H.patron)
 		return
@@ -179,6 +190,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 		H.devotion._grant_all_patron_miracles_direct(H)
 	_pick_loyalist_miracles(H)
 	to_chat(H, span_notice("I remain on the old path of devotion."))
+
 
 /datum/job/roguetown/priest/proc/grant_radical_path(mob/living/carbon/human/H)
 	if(!H || !H.mind || !H.patron)
@@ -592,7 +604,6 @@ code\modules\admin\verbs\divinewrath.dm has a variant with all the gods so keep 
 		to_chat(src, span_warning("Only a radical bishop may abandon the old doctrine."))
 		return
 
-	var/swap_key = REF(src)
 	var/next_swap = 20 MINUTES
 	if(!isnum(next_swap))
 		next_swap = 0

@@ -78,6 +78,17 @@
 			if(H && H.client)
 				_delayed_path_choice(H)
 
+/datum/job/roguetown/churchling/proc/_delayed_path_choice(mob/living/carbon/human/H)
+	if(!H || !H.client || !H.mind)
+		return
+
+	var/choice = alert(H, "Choose your path.", "Churchling Doctrine", "Loyalist", "Radical")
+
+	if(choice == "Radical")
+		src.grant_radical_path(H)
+	else
+		src.grant_old_path(H)
+
 /datum/job/roguetown/churchling/proc/grant_old_path(mob/living/carbon/human/H)
 	if(!H || !H.mind || !H.patron)
 		return
@@ -109,3 +120,4 @@
 			H.mind.AddSpell(S, H)
 
 	to_chat(H, span_notice("I embrace the radical path."))
+
