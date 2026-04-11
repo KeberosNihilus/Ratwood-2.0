@@ -1,23 +1,26 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/beetle
-	name = "giant beetle"
+	name = "giant woolly chafer beetle"
 	desc = "A massive beetle covered in thick, woolly fur-like bristles. These gentle giants often travel up from the underdeep in search of food, particularly sweet mushrooms and fungi."
 	icon = 'icons/roguetown/mob/monster/beetle.dmi'
-	icon_state = "beetle"
-	icon_living = "beetle"
-	icon_dead = "beetle_dead"
+	icon_state = "cuddlebug"
+	icon_living = "cuddlebug"
+	icon_dead = "dead"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	speak_emote = list("clicks", "chitters")
+	emote_hear = list("clicks.", "chitters quietly.")
 	emote_see = list("clicks its mandibles.", "scratches at the ground.", "twitches its antennae.")
 	speak_chance = 1
 	turns_per_move = 6
 	see_in_dark = 10
-	move_to_delay = 1
+	move_to_delay = 8
 	butcher_results = list(
-		/obj/item/reagent_containers/food/snacks/rogue/meat = 4,
+		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/beetle = 4,
 		/obj/item/natural/hide = 3,
 		/obj/item/natural/fur = 2, // woolly fur
 		/obj/item/natural/bundle/bone/full = 1,
 		/obj/item/alch/sinew = 2,
-		/obj/item/alch/viscera = 2
+		/obj/item/alch/viscera = 2,
+		/obj/item/roguegem/chitin = 3
 	)
 	base_intents = list(/datum/intent/simple/headbutt)
 	health = 300
@@ -52,17 +55,21 @@
 	remains_type = /obj/effect/decal/remains/beetle
 	pass_flags = PASSTABLE
 	mob_size = MOB_SIZE_LARGE
+	var/playing_dead = FALSE
+	var/play_dead_threshold = 0.3 // Think that pretty clear waht it does. Below 30% play dead. 
+	var/chitin_timer = 0 // world.time when chitin can next be shaved
+	var/chitin_regrow_time = 5 MINUTES // time between chitin harvests
 
 /mob/living/simple_animal/hostile/retaliate/rogue/beetle/Initialize(mapload)
 	. = ..()
-	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC) // thick chitin armor
+	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC) // Unsure about this.
 
 /mob/living/simple_animal/hostile/retaliate/rogue/beetle/update_icon()
 	cut_overlays()
 	..()
 	if(stat != DEAD)
 		if(ssaddle)
-			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle-above", 4.3)
+			var/mutable_appearance/saddlet = mutable_appearance(icon, "saddle", 4.3)
 			add_overlay(saddlet)
 			saddlet = mutable_appearance(icon, "saddle")
 			add_overlay(saddlet)
@@ -78,16 +85,55 @@
 		D.set_vehicle_dir_layer(EAST, OBJ_LAYER)
 		D.set_vehicle_dir_layer(WEST, OBJ_LAYER)
 
+/mob/living/simple_animal/hostile/retaliate/rogue/beetle/attackby(obj/item/O, mob/user, params)
+	if(!stat && tame && istype(O, /obj/item/rogueweapon/chisel))
+		if(world.time < chitin_timer)
+			to_chat(user, span_warning("There isn't enough chitin regrown to shave yet."))
+			return TRUE
+		user.visible_message(span_notice("[user] begins carefully shaving chitin from [src]."), span_notice("I begin shaving chitin from [src]."))
+		if(do_after(user, 6 SECONDS, src))
+			var/obj/item/roguegem/chitin/C = new(get_turf(src))
+			user.visible_message(span_notice("[user] shaves a plate of chitin from [src]."), span_notice("I shave a plate of chitin from [src]."))
+			user.put_in_hands(C)
+			chitin_timer = world.time + chitin_regrow_time
+			return TRUE
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/beetle/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
+	. = ..(.)
+	if(stat != DEAD && !HAS_TRAIT(src, TRAIT_FAKEDEATH))
+		if(health <= round(maxHealth * play_dead_threshold) && !playing_dead)
+			play_dead()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/beetle/proc/play_dead()
+	if(playing_dead || stat == DEAD)
+		return
+	playing_dead = TRUE
+	visible_message(span_warning("[src] curls up and stops moving!"))
+	fakedeath("beetle_defense")
+	addtimer(CALLBACK(src, PROC_REF(wake_up)), rand(10 SECONDS, 20 SECONDS))
+
+/mob/living/simple_animal/hostile/retaliate/rogue/beetle/proc/wake_up()
+	if(!playing_dead || stat == DEAD)
+		return
+	playing_dead = FALSE
+	cure_fakedeath("beetle_defense")
+	if(health > round(maxHealth * 0.5))
+		visible_message(span_notice("[src] uncurls and starts moving again."))
+	else
+		// Still too hurt, play dead again
+		addtimer(CALLBACK(src, PROC_REF(wake_up)), rand(10 SECONDS, 15 SECONDS))
+
 /mob/living/simple_animal/hostile/retaliate/rogue/beetle/get_sound(input)
 	switch(input)
 		if("aggro")
-			return pick('sound/vo/mobs/beetle/aggro1.ogg','sound/vo/mobs/beetle/aggro2.ogg') // Placeholder sounds
+			return pick('sound/vo/mobs/spider/aggro (1).ogg','sound/vo/mobs/spider/aggro (2).ogg','sound/vo/mobs/spider/aggro (3).ogg')
 		if("pain")
-			return pick('sound/vo/mobs/beetle/pain1.ogg')
+			return pick('sound/vo/mobs/spider/pain.ogg')
 		if("death")
-			return pick('sound/vo/mobs/beetle/death1.ogg')
+			return pick('sound/vo/mobs/spider/death.ogg')
 		if("idle")
-			return pick('sound/vo/mobs/beetle/idle1.ogg','sound/vo/mobs/beetle/idle2.ogg')
+			return pick('sound/vo/mobs/spider/idle (1).ogg','sound/vo/mobs/spider/idle (2).ogg','sound/vo/mobs/spider/idle (3).ogg','sound/vo/mobs/spider/idle (4).ogg')
 
 /mob/living/simple_animal/hostile/retaliate/rogue/beetle/tame
 	tame = TRUE
