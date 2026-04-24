@@ -18,7 +18,7 @@
 	experimental_inhand = FALSE
 	component_type = /datum/component/storage/concrete/roguetown/keyring
 
-/obj/item/storage/keyring/Initialize(mapload)
+/obj/item/storage/keyring/Initialize()
 	. = ..()
 	for(var/X in keys)
 		var/obj/item/key/new_key = new X(loc)
@@ -143,7 +143,7 @@
 	experimental_inhand = FALSE
 	dropshrink = 0.7
 
-/obj/item/lockpickring/Initialize(mapload)
+/obj/item/lockpickring/Initialize()
 	. = ..()
 	if(picks.len)
 		for(var/X in picks)

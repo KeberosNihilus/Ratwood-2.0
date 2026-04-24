@@ -145,7 +145,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/leather/vest/open/random
 
-/obj/item/clothing/suit/roguetown/armor/leather/vest/open/random/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/leather/vest/open/random/Initialize()
 	color = pick("#2f51b8", CLOTHING_RED, CLOTHING_ORANGE, CLOTHING_GREEN, CLOTHING_PURPLE)
 	..()
 
@@ -183,7 +183,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/robe/bisht/random
 
-/obj/item/clothing/suit/roguetown/shirt/robe/bisht/random/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/shirt/robe/bisht/random/Initialize()
 	color = pick("#989898", "#FFFFFF", "#9c4744", "#2f51b8", "#846145", "#e9c792", CLOTHING_BLACK)
 	..()
 
@@ -257,7 +257,7 @@
 
 /obj/item/clothing/suit/roguetown/shirt/dress/thawb/random
 
-/obj/item/clothing/suit/roguetown/shirt/dress/thawb/random/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/shirt/dress/thawb/random/Initialize()
 	color = pick("#989898", "#FFFFFF", "#9c4744", "#2f51b8", "#846145", "#e9c792", CLOTHING_BLACK)
 	..()
 
@@ -367,7 +367,7 @@
 
 /obj/item/clothing/head/roguetown/turban/random
 
-/obj/item/clothing/head/roguetown/turban/random/Initialize(mapload)
+/obj/item/clothing/head/roguetown/turban/random/Initialize()
 	color = pick("#414141", "#684f41", "#93714b", "#FFFFFF", "#848484")
 	..()
 
@@ -476,7 +476,7 @@
 
 /obj/item/clothing/under/roguetown/sirwal/plainrandom
 
-/obj/item/clothing/under/roguetown/sirwal/plainrandom/Initialize(mapload)
+/obj/item/clothing/under/roguetown/sirwal/plainrandom/Initialize()
 	color = pick("#FFFFFF", "#edc6a5", "#927351", CLOTHING_BLACK)
 	..()
 
@@ -499,7 +499,7 @@
 
 /obj/item/clothing/under/roguetown/sirwal/fancy/random
 
-/obj/item/clothing/under/roguetown/sirwal/fancy/random/Initialize(mapload)
+/obj/item/clothing/under/roguetown/sirwal/fancy/random/Initialize()
 	color = pick(CLOTHING_BLACK, CLOTHING_BLUE, CLOTHING_PURPLE, CLOTHING_RED, CLOTHING_YELLOW)
 	..()
 
@@ -623,7 +623,7 @@
 
 /obj/item/storage/belt/rogue/leather/cloth/sash/random
 
-/obj/item/storage/belt/rogue/leather/cloth/sash/random/Initialize(mapload)
+/obj/item/storage/belt/rogue/leather/cloth/sash/random/Initialize()
 	color = pick(CLOTHING_BROWN, CLOTHING_RED, CLOTHING_ORANGE, CLOTHING_YELLOW, CLOTHING_WHITE, CLOTHING_PURPLE)
 	..()
 	
