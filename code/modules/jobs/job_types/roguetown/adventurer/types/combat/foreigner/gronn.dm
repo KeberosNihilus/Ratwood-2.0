@@ -84,6 +84,8 @@
 				H.change_stat(STATKEY_STR, 2)
 				H.change_stat(STATKEY_SPD, 2)
 				//The rest.
+				var/datum/devotion/C = new /datum/devotion(H, H.patron)
+				C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2) //Capped to T2 miracles. Devotion at T2.
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 
 	H.dna.species.soundpack_m = new /datum/voicepack/male/warrior()
