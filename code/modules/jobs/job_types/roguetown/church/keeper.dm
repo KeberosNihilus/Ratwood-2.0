@@ -105,5 +105,45 @@
 							/obj/item/storage/keyring/churchie = 1,
 							/obj/item/rogueweapon/scabbard/sheath = 2)
 	H.put_in_hands(new /obj/item/storage/belt/rogue/surgery_bag/full/physician(H), TRUE)
+
+/datum/job/roguetown/keeper/proc/grant_old_path(mob/living/carbon/human/H)
+	if(!H || !H.mind || !H.patron)
+		return
+
+	REMOVE_TRAIT(H, TRAIT_CLERGYRADICAL, "job")
+
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
+
+	to_chat(H, span_notice("I remain on the old path of Pestra's devotion."))
+
+
+/datum/job/roguetown/keeper/proc/grant_radical_path(mob/living/carbon/human/H)
+	if(!H || !H.mind || !H.patron)
+		return
+
+	ADD_TRAIT(H, TRAIT_CLERGYRADICAL, "job")
+
+	H.miracle_points += 4
+	H.church_favor += 1500
+
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, start_maxed = TRUE)
+
+	if(!H.mind.has_spell(/obj/effect/proc_holder/spell/self/learnmiracle))
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/learnmiracle, H)
+
+	to_chat(H, span_notice("I embrace Pestra's radical doctrine."))
+
+
+/datum/job/roguetown/keeper/proc/_delayed_path_choice(mob/living/carbon/human/H)
+	if(!H || !H.client || !H.mind)
+		return
+
+	var/choice = alert(H, "Choose your path.", "Keeper Doctrine", "Loyalist", "Radical")
+
+	if(choice == "Radical")
+		src.grant_radical_path(H)
+	else
+		src.grant_old_path(H)
+

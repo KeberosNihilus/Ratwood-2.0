@@ -421,6 +421,35 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 
 	return FALSE
 
+/proc/_is_keeper(mob/living/carbon/human/H)
+	if(!H || !H.mind)
+		return FALSE
+
+	var/list/cands = list()
+
+	if(("assigned_job" in H.mind.vars) && istype(H.mind.vars["assigned_job"], /datum/job))
+		var/datum/job/J = H.mind.vars["assigned_job"]
+
+		if(istype(J, /datum/job/roguetown/keeper))
+			return TRUE
+
+		if(("title" in J.vars) && istext(J.vars["title"]))
+			cands += lowertext("[J.vars["title"]]")
+		if(("name" in J.vars) && istext(J.vars["name"]))
+			cands += lowertext("[J.vars["name"]]")
+
+	if(("assigned_role" in H.mind.vars) && istext(H.mind.vars["assigned_role"]))
+		cands += lowertext("[H.mind.vars["assigned_role"]]")
+
+	if(("special_role" in H.mind.vars) && istext(H.mind.vars["special_role"]))
+		cands += lowertext("[H.mind.vars["special_role"]]")
+
+	for(var/txt in cands)
+		if(findtext(txt, "keeper"))
+			return TRUE
+
+	return FALSE
+
 /proc/_is_inhumen_patron_name(n as text)
 	if(!istext(n) || !length(n))
 		return FALSE
@@ -518,7 +547,7 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 
 	var/my_patron = _get_human_patron_name(H)
 	if(length(my_patron))
-		H.patron_relations[my_patron] = 4
+		H.patron_relations[my_patron] = _is_keeper(H) ? 3 : 4
 
 	if(_shunned_relations_unlocked(H) || _is_inhumen_patron_name(my_patron))
 		build_inhumen_patrons_index()
@@ -526,7 +555,7 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 			if(!(n2 in H.patron_relations))
 				H.patron_relations[n2] = 0
 		if(length(my_patron) && (my_patron in inhumen_patrons_index))
-			H.patron_relations[my_patron] = 4
+			H.patron_relations[my_patron] = _is_keeper(H) ? 3 : 4
 
 	_sync_t4_relation_traits(H)
 
@@ -557,6 +586,7 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 	var/my_patron = _get_human_patron_name(H)
 	var/is_templar = _is_templar(H)
 	var/is_churchling = _is_churchling(H)
+	var/is_keeper = _is_keeper(H)
 
 	var/list/already_types = list()
 	if(H.mind)
@@ -598,6 +628,8 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 				max_allowed = min(max_allowed, 2)
 			if(is_churchling)
 				max_allowed = min(max_allowed, 1)
+			if(is_keeper)
+				max_allowed = min(max_allowed, 3)
 
 			if(tier > max_allowed)
 				continue
@@ -966,7 +998,8 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 
 	var/is_templar = _is_templar(H)
 	var/is_churchling = _is_churchling(H)
-	var/rel_cap = is_templar ? 2 : (is_churchling ? 1 : 4)
+	var/is_keeper = _is_keeper(H)
+	var/rel_cap = is_templar ? 2 : (is_churchling ? 1 : (is_keeper ? 3 : 4))
 
 	if(src.current_rel_tab == "ten" || (src.current_rel_tab == "shunned" && _shunned_relations_unlocked(H)))
 		var/list/idx = (src.current_rel_tab == "shunned") ? inhumen_patrons_index : divine_patrons_index
@@ -1440,6 +1473,8 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 			max_allowed = min(max_allowed, 2)
 		if(_is_churchling(H))
 			max_allowed = min(max_allowed, 1)
+		if(_is_keeper(H))
+			max_allowed = min(max_allowed, 3)
 
 		if(tier > max_allowed)
 			qdel(Snew)
@@ -1488,6 +1523,9 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 		if(_is_churchling(H) && cur >= 1)
 			open_research_ui(H)
 			return
+		if(_is_keeper(H) && cur >= 3)
+			open_research_ui(H)
+			return
 		if(cur >= 4)
 			open_research_ui(H)
 			return
@@ -1497,6 +1535,9 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 			open_research_ui(H)
 			return
 		if(_is_churchling(H) && next > 1)
+			open_research_ui(H)
+			return
+		if(_is_keeper(H) && next > 3)
 			open_research_ui(H)
 			return
 
