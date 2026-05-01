@@ -232,8 +232,9 @@
 
 /obj/effect/proc_holder/spell/targeted/touch/lacrima
 	name = "Lacrima"
-	desc = "Wreath your hand in inhumen energies and plunge it into the chest of your vicitm, shattering their ribs and will alike in order to forcefully tear the lux from their chest.\n \
-	Does not work on people without lux, obviously."
+	desc = "Wreath your hand in inhumen energies.\n \
+	USE on a mind-inhabited victim who is alyve, floored, whose lux is intact to plunge your hand into their chest, shattering their ribs and will alike in order to forcefully tear the lux from their chest.\n \
+	DISARM on a PURE lux to convert it into IMPURE lux, in order to deprive it of those who need it or to fuel your wicked necromantic relics."
 	overlay_state = "noc_revive"
 	clothes_req = FALSE
 	drawmessage = "I pray to ZIZO for but a sliver of Her power, wreathing my hand in inhumen energies!"
@@ -242,29 +243,37 @@
 	chargetime = 0
 	releasedrain = 5
 	miracle = TRUE
-	devotion_cost = 100
+	devotion_cost = 0
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/holy
 	hand_path = /obj/item/melee/touch_attack/lacrima
 
 /obj/effect/proc_holder/spell/targeted/touch/lacrima/free
 	miracle = FALSE
-	devotion_cost = 0
 
 /obj/item/melee/touch_attack/lacrima
 	name = "\improper lux ripper"
 	desc = "ZIZO's will is to perverse the lux of the lyving. With but a mere shred of Her power, you will do exactly that."
 	catchphrase = null
-	possible_item_intents = list(/datum/intent/use)
+	possible_item_intents = list(/datum/intent/use, INTENT_DISARM)
 	icon = 'icons/mob/roguehudgrabs.dmi'
 	icon_state = "pulling"
 	icon_state = "grabbing_greyscale"
 	color = "#ff0000"
 	associated_skill = /datum/skill/magic/holy
 
+/obj/item/melee/touch_attack/lacrima/attack_self()
+	qdel(src)
+
 /obj/item/melee/touch_attack/lacrima/afterattack(mob/living/carbon/human/target, mob/living/carbon/human/user, proximity)
-	if(/datum/intent/use)
-		lux_rip(target, user)
+	switch(user.used_intent.type)
+		if(/datum/intent/use)
+			lux_rip(target, user)
+		if(INTENT_DISARM)
+			if(istype(target, /obj/item/reagent_containers/lux))
+				perverse_lux(target, user)
+			else
+				to_chat(user, span_info("That's not pure lux."))
 
 /obj/item/melee/touch_attack/lacrima/proc/lux_rip(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	var/break_time = 100
@@ -289,7 +298,8 @@
 		to_chat(user, span_notice("This one's lux is already disturbed!"))
 		return
 	else
-		user.visible_message(span_alert("[user] reaches towards [target]'s chest, inhumen flames wreathing [user.p_their()] hand..."), span_alert("I begin reaching my hand towards [target], preparing to tear their lux from their body..."))
+		to_chat(user, span_alert("I begin reaching my hand towards [target], preparing to tear their lux from their body..."))
+		user.visible_message(span_alert("[user] reaches towards [target]'s chest, inhumen flames wreathing [user.p_their()] hand..."))
 	var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
 	if(!chest.has_wound(/datum/wound/fracture/chest))
 		if(!do_after(user, break_time, target = target))
@@ -315,9 +325,23 @@
 	qdel(src)
 
 /datum/stressevent/myfuckingluxman
-	desc = span_boldred("MY LYFE HAS BEEN DEFILED!!")
+	desc = span_boldred("THE ESSENCE OF MY LYFE HAS BEEN DEFILED!!")
 	stressadd = 30
 	timer = 5 MINUTES
+
+/obj/item/melee/touch_attack/lacrima/proc/perverse_lux(atom/target, mob/living/carbon/human/user)
+	var/perverse_time = 20
+
+	if(!target.Adjacent(user))
+		to_chat(user, span_info("I need to get closer."))
+		return
+	to_chat(user, span_alert("I begin molding the [target] in my hands, perversing it with inhumen energies..."))
+	if(!do_after(user, perverse_time, target = target))
+		return
+	else
+		qdel(target)
+		qdel(src)
+		user.put_in_hands(new /obj/item/reagent_containers/lux_impure, forced = TRUE)
 
 /obj/effect/proc_holder/spell/self/zizo_snuff
 	name = "Snuff Lights"
