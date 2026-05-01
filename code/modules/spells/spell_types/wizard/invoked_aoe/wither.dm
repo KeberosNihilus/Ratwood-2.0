@@ -25,9 +25,9 @@
 	var/damage = 40
 
 /obj/effect/proc_holder/spell/invoked/wither/miracle
-    cost = 0
-    spell_tier = 0
-    associated_skill = /datum/skill/magic/holy
+	cost = 0
+	spell_tier = 0
+	associated_skill = /datum/skill/magic/holy
 
 /obj/effect/proc_holder/spell/invoked/wither/cast(list/targets, mob/user = usr)
 	var/turf/T = get_turf(targets[1])
