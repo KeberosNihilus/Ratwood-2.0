@@ -490,7 +490,7 @@
 /datum/crafting_recipe/roguetown/structure/railing
 	name = "railing"
 	result = /obj/structure/fluff/railing/wood
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/grown/log/tree/stick = 2)
 	ontile = TRUE
 	skillcraft = /datum/skill/craft/carpentry
 	buildsame = TRUE
@@ -800,6 +800,7 @@
 	verbage_simple = "build"
 	verbage = "builds"
 	skillcraft = /datum/skill/craft/masonry
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/structure/millstone
 	name = "millstone"
@@ -1309,7 +1310,7 @@
 /datum/crafting_recipe/roguetown/structure/hangingchains
 	name = "Hanging Chains"
 	result = /obj/structure/fluff/walldeco/chains
-	reqs = list(/obj/item/ingot/iron = 1, /obj/item/rope/chain = 2)
+	reqs = list(/obj/item/rope/chain = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 1
 
@@ -1364,47 +1365,47 @@
 	name = "red pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/red
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/bluepillows
 	name = "blue pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/blue
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/greenpillows
 	name = "green pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/green
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/brownpillows
 	name = "brown pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/brown
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/magentapillows
 	name = "magenta pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/magenta
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/purplepillows
 	name = "purple pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/purple
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/blackpillows
 	name = "black pillows (2 cloth)"
 	result = /obj/structure/fluff/pillow/black
 	reqs = list(/obj/item/natural/cloth = 2)
-	skillcraft = /datum/skill/craft/carpentry
+	skillcraft = /datum/skill/craft/sewing
 	craftdiff = 2
