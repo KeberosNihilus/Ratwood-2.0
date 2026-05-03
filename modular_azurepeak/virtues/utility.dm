@@ -219,6 +219,12 @@
 		var/instrument_type = instruments[chosen_name]
 		recipient.mind?.special_items[chosen_name] = instrument_type
 
+/datum/virtue/utility/mean
+	name = "Mean"
+	desc = "Years of hardship and strife have left me with a chip on my shoulder, and a quick temper. I have learnt how to cause pain"
+	added_traits = list(TRAIT_DEATHBYSNUSNU, TRAIT_NUTCRACKER)
+	added_stashed_items = list("Bag of Fetish Gear" = /obj/item/storage/roguebag/fetish)
+
 /datum/virtue/utility/larcenous
 	name = "Larcenous"
 	desc = "Whether it was asked of you, or by a calling for the rush deep within your hollow heart, you seek things that don't belong you. You know how to work a lock, and have stashed a ring of them, for just the occasion."

@@ -127,3 +127,15 @@
 		/obj/item/ash,
 	/obj/item/ash
 	)
+
+/obj/item/storage/roguebag/fetish
+	populate_contents = list(
+		/obj/item/clothing/mask/rogue/blindfold,
+		/obj/item/chastity/chastity_cage,
+		/obj/item/chastity/chastity_belt,
+		/obj/item/dildo/wood,
+		/obj/item/natural/cloth,
+		/obj/item/rope/chain,
+		/obj/item/rogueweapon/whip,
+		/obj/item/rogueweapon/surgery/cautery/branding/crude
+	)
