@@ -572,25 +572,25 @@
 	return TRUE
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/grass
-	name = "grass turf"
+	name = "grass"
 	result = /turf/open/floor/rogue/grass
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/grassred
-	name = "red grass turf"
+	name = "red grass"
 	result = /turf/open/floor/rogue/grassred
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/grassyel
-	name = "yellow grass turf"
+	name = "yellow grass"
 	result = /turf/open/floor/rogue/grassyel
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/grasscold
-	name = "cold grass turf"
+	name = "cold grass"
 	result = /turf/open/floor/rogue/grasscold
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/desert_grass
-	name = "desert grass turf"
+	name = "desert grass"
 	result = /turf/open/floor/rogue/desert_grass
 
 /datum/crafting_recipe/roguetown/turfs/druidic_grass/grasspurple
-	name = "purple grass turf"
+	name = "purple grass"
 	result = /turf/open/floor/rogue/grasspurple

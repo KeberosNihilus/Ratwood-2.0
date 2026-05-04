@@ -247,7 +247,8 @@
 	obj_flags = CAN_BE_HIT | IGNORE_SINK
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = GAME_PLANE_UPPER
-	pixel_x = -36
+	pixel_x = -60
+	pixel_y = -10
 
 	bound_height = 128
 	bound_width = 128

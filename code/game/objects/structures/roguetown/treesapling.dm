@@ -12,7 +12,7 @@
 
 #define TREESAP_WATER_MAX    200
 #define TREESAP_STAGE_TIME   (10 MINUTES)
-#define TREESAP_YOUNG_TIME   (10 MINUTES)
+#define TREESAP_YOUNG_TIME   (5 MINUTES)
 #define TREESAP_WATER_DRAIN  0.5  // water units lost per second (~6.7 min to dry)
 #define TREESAP_DEATH_TICKS  60   // negative-progress seconds before dying
 
@@ -49,7 +49,7 @@
 	// pixel offsets applied when advancing stages
 	var/stage2_pixel_x = 0
 	var/stage2_pixel_y = 0
-	var/stage3_pixel_x = -3
+	var/stage3_pixel_x = 1
 	var/stage3_pixel_y = 0
 
 /obj/structure/tree_sapling/Initialize(mapload)
@@ -203,9 +203,7 @@
 	desc = "A tender pine sapling. Keep it watered and it will grow into a tall pine tree."
 	icon_state = "palebush_3"
 	stage2_state = "pointybush_1"
-	stage2_pixel_x = -3
 	stage3_state = "t11"
-	stage3_pixel_x = -16
 	dead_state = "apple3"
 	tree_final_type = /obj/structure/flora/roguetree/pine
 
@@ -215,8 +213,7 @@
 	icon_state = "palebush_1"
 	stage2_state = "pinkbush"
 	stage3_state = "t10"
-	stage3_pixel_x = 0
-	stage3_pixel_y = -4
+	stage3_pixel_x = -10
 	dead_state = "apple3"
 	tree_final_type = /obj/structure/flora/sakura
 
