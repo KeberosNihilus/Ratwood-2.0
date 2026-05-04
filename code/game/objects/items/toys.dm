@@ -455,10 +455,6 @@
 		cards += trump
 
 /obj/item/toy/cards/deck/tarot/majorarcana
-	name = "tarot deck"
-	desc = "The Mouthpiece of Xylix, given to mortals long ago. See fate. Never bend a corner."
-	icon_state = "deck_tarot_full"
-	deckstyle = "tarot"
 
 /obj/item/toy/cards/deck/tarot/majorarcana/populate_deck()
 	icon_state = "deck_[deckstyle]_full"
