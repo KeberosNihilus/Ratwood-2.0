@@ -160,6 +160,7 @@
 
 /obj/effect/proc_holder/spell/invoked/speakwithdead
 	name = "Speak with Dead"
+	desc = "Call upon the Undermaiden to let your words reach a departed soul, and hear their whisper in return."
 	range = 5
 	overlay_state = "speakwithdead"
 	releasedrain = 30
