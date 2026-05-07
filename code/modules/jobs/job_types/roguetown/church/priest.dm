@@ -426,7 +426,7 @@ GLOBAL_LIST_EMPTY(priest_swap_timers)
 		COOLDOWN_START(src, priest_apostasy, PRIEST_APOSTASY_COOLDOWN)
 
 		if (istype(H.patron, /datum/patron/divine))
-			H.apply_status_effect(/datum/status_effect/debuff/apostasy, curse_resist)
+			H.apply_status_effect(/datum/status_effect/debuff/apostasy)
 			H.add_stress(/datum/stressevent/apostasy)
 			to_chat(H, span_warning("A holy silence falls upon you. Your Patron cannot hear you anymore..."))
 		else
