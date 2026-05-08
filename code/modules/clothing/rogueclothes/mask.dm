@@ -335,6 +335,7 @@
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/iron
+	sewrepair = FALSE
 
 /obj/item/clothing/mask/rogue/facemask
 	name = "iron mask"
