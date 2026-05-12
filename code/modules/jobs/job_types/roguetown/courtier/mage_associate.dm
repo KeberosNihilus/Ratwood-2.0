@@ -50,7 +50,7 @@
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 2,
+		STATKEY_WIL = 1,
 		STATKEY_SPD = 1
 	)
 	subclass_spellpoints = 21
